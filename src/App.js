@@ -1,27 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import * as ms from "@microsoft/teams-js";
 
-import {
-  BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
+
+import { Provider, Button } from '@fluentui/react-northstar';
+
+import textToTheme from './helpers/textToTheme';
+
+// components
+import Web from './components/web';
+import Teams from './components/teams';
+import Config from './components/config';
+
+// helpers
+import history from './helpers/history';
 
 const App = () => {
+
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <div >
-            main landing
-          </div>
-        </Route>
-        <Route exact path="/members">
-          <div>
-            member list table
-          </div>
-        </Route>
-        <Route exact path="/activate">
-          activate home page
-        </Route>
-      </Switch>
-    </Router>
+    <Provider theme={textToTheme('default')}>
+      <Router history={history}>
+        <Switch>
+          <Route exact path="/">main static page</Route>
+          <Route exact path="/app" component={Web} />
+
+          <Route exact path="/teams/config" component={Config} />
+          <Route exact path="/teams/activate" component={Teams} />
+          <Route exact path="/teams/members" component={Teams} />
+          <Route exact path="/teams/financials" component={Teams} />
+          <Route exact path="/teams/attendance" component={Teams} />
+        </Switch>
+      </Router>
+    </Provider>
   );
 }
 
