@@ -15,20 +15,18 @@ const Teams = () => {
   const [user, setUser] = useState({})
   const [context, setContext] = useState({ theme: 'default' })
   
-  useEffect(() => {
-    ms.initialize(() => {
-      ms.registerOnThemeChangeHandler((theme) => setContext((prev) => { return { ...prev, theme } }))
-      ms.getContext((context) => {
-        setContext(context)
-      })
-      ms.authentication.getAuthToken({
-        successCallback: (result) => { setUser({ ...jwt_decode(result), error: null }) },
-        failureCallback: (reason) => { setUser({ error: reason }) }
-      })
-      ms.appInitialization.notifyAppLoaded()
+  ms.initialize(() => {
+    ms.registerOnThemeChangeHandler((theme) => setContext((prev) => { return { ...prev, theme } }))
+    ms.getContext((context) => {
+      setContext(context)
     })
-    // make post requests to check if user already in a subscription
-  }, [])
+    ms.authentication.getAuthToken({
+      successCallback: (result) => { setUser({ ...jwt_decode(result), error: null }) },
+      failureCallback: (reason) => { setUser({ error: reason }) }
+    })
+    ms.appInitialization.notifyAppLoaded()
+  })
+  // make post requests to check if user already in a subscription
 
 
   const submit = () => {
