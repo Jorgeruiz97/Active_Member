@@ -13,6 +13,7 @@ const Teams = () => {
   const { url, path } = useRouteMatch()
   const { id } = useParams()
   const [user, setUser] = useState({})
+  const [token, setToken] = useState('')
   const [context, setContext] = useState({ theme: 'default' })
   
   ms.initialize(() => {
@@ -21,7 +22,10 @@ const Teams = () => {
       setContext(context)
     })
     ms.authentication.getAuthToken({
-      successCallback: (result) => { setUser({ ...jwt_decode(result), error: null }) },
+      successCallback: (result) => {
+        setToken(result);
+        setUser({ ...jwt_decode(result), error: null })
+      },
       failureCallback: (reason) => { setUser({ error: reason }) }
     })
     ms.appInitialization.notifyAppLoaded()
@@ -37,6 +41,7 @@ const Teams = () => {
     <Provider theme={textToTheme(context.theme)}>
       <h1>hi</h1>
       <div>{user.unique_name}</div>
+      <div>{token}</div>
       {/* {
         context.appSessionId && user.unique_name ?
         :
