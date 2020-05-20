@@ -40,6 +40,7 @@ const Teams = () => {
 
   return (
     <Provider theme={textToTheme(context.theme)}>
+      <h1>hi</h1>
       <div>{user.unique_name}</div>
       {/* {
         context.appSessionId && user.unique_name ?
