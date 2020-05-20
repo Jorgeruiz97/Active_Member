@@ -17,22 +17,19 @@ const Teams = () => {
   
   useEffect(() => {
     ms.initialize(() => {
+      ms.registerOnThemeChangeHandler((theme) => setContext((prev) => { return { ...prev, theme } }))
       ms.getContext((context) => {
         setContext(context)
       })
+      ms.authentication.getAuthToken({
+        successCallback: (result) => { setUser({ ...jwt_decode(result), error: null }) },
+        failureCallback: (reason) => { setUser({ error: reason }) }
+      })
+      ms.appInitialization.notifyAppLoaded()
     })
-
-    ms.authentication.getAuthToken({
-      successCallback: (result) => { setUser({ ...jwt_decode(result), error: null }) },
-      failureCallback: (reason) => { setUser({ error: reason }) }
-    })
-
-    ms.appInitialization.notifyAppLoaded()
-
     // make post requests to check if user already in a subscription
   }, [])
 
-  ms.registerOnThemeChangeHandler((theme) => setContext((prev) => { return { ...prev, theme } }))
 
   const submit = () => {
     alert('Form submitted');
