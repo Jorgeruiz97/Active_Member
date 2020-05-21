@@ -11,7 +11,7 @@ import textToTheme from '../helpers/textToTheme';
 
 import ActivateForm from '../forms/activateForm';
 
-import { init } from '../store/actions/userActions';
+import { init } from '../store/actions/userAction';
 
 const Teams = () => {
   const { app, user, context } = useSelector(state => state)
