@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import * as ms from "@microsoft/teams-js";
+import React from 'react';
 
 import { Router, Switch, Route } from "react-router-dom";
 
@@ -18,7 +17,7 @@ import history from './helpers/history';
 const App = () => {
 
   return (
-    <Provider theme={textToTheme('default')}>
+    <Provider theme={textToTheme('dark')}>
       <Router history={history}>
         <Switch>
           <Route exact path="/">main static page</Route>

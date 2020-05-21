@@ -1,54 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import * as ms from "@microsoft/teams-js";
 
-import { Redirect, useRouteMatch, useParams } from "react-router-dom";
-import { Provider, Form } from '@fluentui/react-northstar';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
+import { useRouteMatch, useParams } from "react-router-dom";
+import { Provider, Flex, Input } from '@fluentui/react-northstar';
 
 import * as jwt_decode from "jwt-decode";
 
 import textToTheme from '../helpers/textToTheme';
 
+import ActivateForm from '../forms/activateForm';
+
 
 const Teams = () => {
-  const { url, path } = useRouteMatch()
-  const { id } = useParams()
+  // const { url, path } = useRouteMatch()
+  // const { id } = useParams()
   const [user, setUser] = useState({})
-  const [token, setToken] = useState('')
   const [context, setContext] = useState({ theme: 'default' })
   
   ms.initialize(() => {
     ms.registerOnThemeChangeHandler((theme) => setContext((prev) => { return { ...prev, theme } }))
+
     ms.getContext((context) => {
       setContext(context)
     })
+
     ms.authentication.getAuthToken({
-      successCallback: (result) => {
-        setToken(result);
-        setUser({ ...jwt_decode(result), error: null })
-      },
-      failureCallback: (reason) => { setUser({ error: reason }) }
+      successCallback: (result) => setUser({ ...jwt_decode(result), error: null }),
+      failureCallback: (reason) => setUser({ error: reason })
     })
+
+    
     ms.appInitialization.notifyAppLoaded()
   })
-  // make post requests to check if user already in a subscription
+  
+  useEffect(() => {
+    console.log('loaded')
+  }, [])
 
 
-  const submit = () => {
-    alert('Form submitted');
-  }
+  const promise = loadStripe("pk_test_OKMPlKl58yQUwKR9VJpi8mXb");
 
   return (
     <Provider theme={textToTheme(context.theme)}>
-      <h1>hi</h1>
-      <div>{user.unique_name}</div>
-      <div>{token}</div>
-      {/* {
-        context.appSessionId && user.unique_name ?
-        :
-        <Redirect to="/" />
-      } */}
-      {/* user school ID */}
-      {/* card and billing detail details */}
+      <div>
+        <h4>Hello, {user.unique_name}</h4>
+      </div>
+      <Elements stripe={promise}>
+        <ActivateForm user={user} />
+      </Elements>
     </Provider>
   )
 }
