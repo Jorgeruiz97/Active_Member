@@ -16,6 +16,7 @@
     "dotenv": "^8.2.0",
     "isomorphic-fetch": "^2.2.1",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.26.0",
     "msteams-ui-components-react": "^0.8.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
